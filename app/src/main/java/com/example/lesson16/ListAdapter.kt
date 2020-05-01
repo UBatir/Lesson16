@@ -7,11 +7,23 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ListAdapter(private val activity: MainActivity):RecyclerView.Adapter<ListViewHolder>() {
 
-    private var mode:List<User> = listOf()
+    private var mode:MutableList<User> = mutableListOf()
 
-    fun setData(data:List<User>){
+    fun setData(data:MutableList<User>){
         mode=data
         notifyDataSetChanged()
+    }
+
+    fun addItem(position: Int){
+        mode.add(position,User("Title ${mode.size+1}","Description ${mode.size+1}"))
+        notifyItemInserted(position)
+        notifyItemRangeChanged(position,mode.size)
+    }
+
+    fun removeItem(position: Int){
+        mode.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position,mode.size)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
